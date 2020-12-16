@@ -12,7 +12,24 @@ import com.design.sagar.requestor.ButtonInterface;
 public class InternalButtonImpl extends ButtonImpl implements ButtonInterface {
 
 	private String elevatorId;
+	private String destFloor;
 	
+
+	/**
+	 * @return the destFloor
+	 */
+	public String getDestFloor() {
+		return destFloor;
+	}
+
+
+	/**
+	 * @param destFloor the destFloor to set
+	 */
+	public void setDestFloor(String destFloor) {
+		this.destFloor = destFloor;
+	}
+
 
 	/**
 	 * @return the elevatorId
@@ -30,9 +47,10 @@ public class InternalButtonImpl extends ButtonImpl implements ButtonInterface {
 	}
 
 
-	public InternalButtonImpl(String buttonType, String floor, String elevatorId) {
-		super(buttonType, floor);
+	public InternalButtonImpl(String buttonType, String scrFloor, String destFloor, String elevatorId) {
+		super(buttonType, scrFloor);
 		this.elevatorId = elevatorId;
+		this.destFloor = destFloor;
 	}
 
 	

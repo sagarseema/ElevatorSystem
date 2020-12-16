@@ -13,7 +13,6 @@ import com.design.sagar.domain.Request;
  */
 public class RequestControllerImpl implements RequestController {
 
-	
 	private static final RequestControllerImpl instance = new RequestControllerImpl();
 
 	// private constructor to avoid client applications to use constructor
@@ -23,26 +22,38 @@ public class RequestControllerImpl implements RequestController {
 	public static RequestControllerImpl getInstance() {
 		return instance;
 	}
-	
 
 	@Override
 	public boolean addRequest(Request request) {
 		RequestQueue.getInstance().add(request);
-		System.out.println(" Adding request to the Queue "+request.toString());
-		System.out.println(" Size of the Queue " + RequestQueue.getInstance().size());
+		if (request.getRequestType().equalsIgnoreCase("INT")) {
+			System.out.println(" Adding request to the Queue for priority " + request.getPriority() + " Direction "
+					+ request.getDirection() + " from " + request.getSrcFloor() + " from elevator "
+					+ request.getElevatorId());
+		} else if (request.getRequestType().equalsIgnoreCase("EXT")) {
+			System.out.println(" Adding request to the Queue for priority " + request.getPriority()
+					+ " for sendig elevator to " + request.getSrcFloor() + " for going " + request.getDirection());
+		}
 		return true;
 	}
 
 	@Override
 	public boolean removeRequest(Request request) {
+		// will remove the row if present matched by equals method
 		RequestQueue.getInstance().remove(request);
-		System.out.println(" Removing request to the Queue "+request.toString());
+		if (request.getRequestType().equalsIgnoreCase("INT")) {
+			System.out.println(" Removing request to the Queue for priority " + request.getPriority() + " Direction "
+					+ request.getDirection() + " from " + request.getSrcFloor() + " from elevator "
+					+ request.getElevatorId());
+		} else if (request.getRequestType().equalsIgnoreCase("EXT")) {
+			System.out.println(" Removing request to the Queue for priority " + request.getPriority() + " for going "
+					+ request.getDirection() + " from " + request.getSrcFloor());
+		}
 		return true;
 	}
 	/**
 	 * 
 	 * @return
-	 */	
-
+	 */
 
 }

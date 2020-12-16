@@ -14,6 +14,33 @@ public class Request implements Comparable<Request>{
 	private String srcFloor;
 	private String destFloor;
 	private Direction direction;
+	private String priority;
+	
+	
+	
+	
+	public Request(String requestType, String elevatorId, String srcFloor, String destFloor, Direction direction,
+			String priority) {
+		super();
+		this.requestType = requestType;
+		this.elevatorId = elevatorId;
+		this.srcFloor = srcFloor;
+		this.destFloor = destFloor;
+		this.direction = direction;
+		this.priority = priority;
+	}
+	/**
+	 * @return the priority
+	 */
+	public String getPriority() {
+		return priority;
+	}
+	/**
+	 * @param priority the priority to set
+	 */
+	public void setPriority(String priority) {
+		this.priority = priority;
+	}
 	/**
 	 * @return the requestType
 	 */
@@ -81,7 +108,12 @@ public class Request implements Comparable<Request>{
 	}
 	@Override
 	public int compareTo(Request req) {
-		return this.getRequestType().compareTo(req.getRequestType());
+		return this.getPriority().compareTo(req.getPriority());
+	}
+	
+	public boolean equals(Request req) {
+		// TODO Auto-generated method stub
+		return super.equals(req);
 	}
 	
 	

@@ -21,38 +21,46 @@ public class TestElevatorSystem {
 	 */
 	public static void main(String[] args) throws InterruptedException {
 
-		ExternalButtonImpl external = new ExternalButtonImpl("B0", "1");
-		Request request = new Request();
-		request.setRequestType(external.getButtonType());
-		request.setSrcFloor(external.getFloor());
-		request.setDirection(Direction.UP);
+		ExternalButtonImpl external = new ExternalButtonImpl("EXT", "1");
+		Request request = new Request(external.getButtonType(), null,  external.getSrcFloor(),null, Direction.UP,
+				getPriority(external.getButtonType()));
 		external.onPress(request);
 
-		ExternalButtonImpl external2 = new ExternalButtonImpl("B0", "2");
-		request = new Request();
-		request.setRequestType(external.getButtonType());
-		request.setSrcFloor(external.getFloor());
-		request.setDirection(Direction.UP);
+		external = new ExternalButtonImpl("EXT", "2");
+		request = new Request(external.getButtonType(), null, external.getSrcFloor(),null, Direction.UP,
+				getPriority(external.getButtonType()));
 		external.onPress(request);
 
-		InternalButtonImpl internal = new InternalButtonImpl("A0", "1", "1");
-		request = new Request();
-		request.setRequestType(internal.getButtonType());
-		request.setSrcFloor(internal.getFloor());
-		request.setDestFloor(internal.getElevatorId());
+		external = new ExternalButtonImpl("EXT", "3");
+		request = new Request(external.getButtonType(), null, external.getSrcFloor(),null, Direction.UP,
+				getPriority(external.getButtonType()));
 		external.onPress(request);
 
+		external = new ExternalButtonImpl("EXT", "4");
+		request = new Request(external.getButtonType(), null, external.getSrcFloor(),null, Direction.UP,
+				getPriority(external.getButtonType()));
+		external.onPress(request);
+
+		InternalButtonImpl internal = new InternalButtonImpl("INT", "2", "5","1");
+		 request = new Request(internal.getButtonType(), internal.getElevatorId(), internal.getSrcFloor(), internal.getDestFloor(), Direction.DOWN,
+				 getPriority(internal.getButtonType()));
+		external.onPress(request);
 		RequestSchedulerImpl scheduler = new RequestSchedulerImpl();
 		int i = 1;
 		while (i < 10) {
 			Thread.sleep(2000);
-			if (i%3 == 0) {
-				InternalButtonImpl internal1 = new InternalButtonImpl("A0", "1", "1");
-				request = new Request();
-				request.setRequestType(internal1.getButtonType());
-				request.setSrcFloor(internal1.getFloor());
-				request.setDestFloor(internal1.getElevatorId());
+			if (i % 6 == 0) {
+				 internal = new InternalButtonImpl("INT", "4", "2","2");
+				 request = new Request(internal.getButtonType(), internal.getElevatorId(), internal.getSrcFloor(), internal.getDestFloor(), Direction.UP,
+						getPriority(internal.getButtonType()));
 				external.onPress(request);
+			}
+
+			if (i == 4) {
+				external = new ExternalButtonImpl("EXT", "4");
+				request = new Request(external.getButtonType(), null, external.getSrcFloor(),null, Direction.UP,
+						getPriority(external.getButtonType()));
+				external.onCancellation(request);
 			}
 			i++;
 			System.out.println(" Requests pending in the queue " + RequestQueue.getInstance().size());
@@ -60,9 +68,16 @@ public class TestElevatorSystem {
 			if (null != request)
 				scheduler.assignElevator();
 
-			
 		}
 
+	}
+
+	private static String getPriority(String buttonType) {
+		if(buttonType !=null)
+			return buttonType.equalsIgnoreCase("INT") ? "HIGH" : "LOW";
+		else
+			return "P2";
+		
 	}
 
 }

@@ -9,6 +9,15 @@ package com.design.sagar.domain;
  */
 public class ElevatorRequest extends Request{
 
+	public ElevatorRequest(String requestType, String elevatorId, String srcFloor, String destFloor,
+			Direction direction, String priority) {
+		super(requestType, elevatorId, srcFloor, destFloor, direction, priority);
+		// TODO Auto-generated constructor stub
+	}
+
+
+	
+
 	private String requestType;	
 	
 	/**

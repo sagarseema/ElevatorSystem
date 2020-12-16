@@ -3,6 +3,8 @@
  */
 package com.design.sagar.controller.impl;
 
+import java.util.Random;
+
 import com.design.sagar.controller.RequestScheduler;
 import com.design.sagar.data.RequestQueue;
 import com.design.sagar.domain.Direction;
@@ -22,24 +24,21 @@ public class RequestSchedulerImpl implements RequestScheduler {
 		// invoke method on controller to invoke the method
 		Request request = RequestQueue.getInstance().poll();
 		if (null != request) {
-			System.out.println("Extracting from Queue " + request.toString());
-			ElevatorControllerImpl.getInstance().moveElevator(deriveElevatorToUse(request));
-			System.out.println(" Moving elevator ");
+			ElevatorRequest elevatorRequest = deriveElevatorToUse(request);
+			ElevatorControllerImpl.getInstance().moveElevator(elevatorRequest);
+			System.out.println(" Process request with priority "+request.getPriority() + " from floor "+request.getSrcFloor()
+			+ " to floor "+request.getDestFloor() + " in the direction going "+request.getDirection());
 		}
 		return true;
 	}
 
 	private ElevatorRequest deriveElevatorToUse(Request request) {
 		// Check in data base and decide which elevator to be moved
-		// sample output
-		ElevatorRequest elevatorRequest = new ElevatorRequest();
-		elevatorRequest.setRequestType("MOVE ELEVATOR");
-		elevatorRequest.setElevatorId("1");
-		elevatorRequest.setDestFloor("5");
-		elevatorRequest.setSrcFloor("1");
-		elevatorRequest.setDirection(Direction.UP);
-		System.out.println(" Decided to use " + elevatorRequest.toString());
-		return new ElevatorRequest();
+		// sample output		
+		Random rn = new Random();
+		int elevatorId = rn.nextInt(5) + 1;
+		ElevatorRequest elevatorRequest = new ElevatorRequest("MOVE ELEVATOR",String.valueOf(elevatorId),"2","3",Direction.UP,"1");
+		return elevatorRequest;
 	}
 
 }
