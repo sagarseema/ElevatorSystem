@@ -26,7 +26,7 @@ public class RequestSchedulerImpl implements RequestScheduler {
 		if (null != request) {
 			ElevatorRequest elevatorRequest = deriveElevatorToUse(request);
 			ElevatorControllerImpl.getInstance().moveElevator(elevatorRequest);
-			System.out.println(" Process request with priority "+request.getPriority() + " from floor "+request.getSrcFloor()
+			System.out.println(" Moving elevator " + elevatorRequest.getElevatorId()+ " for processing request with priority "+request.getPriority() + " from floor "+request.getSrcFloor()
 			+ " to floor "+request.getDestFloor() + " in the direction going "+request.getDirection());
 		}
 		return true;
